@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nothings Portfolio</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('images/port.png') no-repeat center center fixed;
+            background-size: cover;
+            transition: filter 1s;
+        }
+        .blurred {
+            filter: blur(10px); /* Apply blur */
+        }
+        .cookie-banner {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            text-align: center;
+            padding: 30px 40px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            font-size: 1.7em;
+        }
+        .fade-in {
+            opacity: 1; /* Fade in */
+        }
+        #video-container {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        video {
+            width: 100%;
+            height: 100%;
+        }
+        .cookie-banner button {
+            margin-left: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(128, 0, 128, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .cookie-banner button:hover {
+            background: rgba(128, 0, 128, 0.3);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+<div class="background-container"></div>
+<div class="cookie-banner">
+    <div>This website uses cookies to enhance your experience.</div>
+    <button id="accept-cookies">Accept</button>
+</div>
+<div id="video-container">
+    <video id="video" src="images/video.mp4"></video>
+</div>
+
+<script>
+    function toggleFullScreen(element) {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            element.requestFullscreen().catch(err => {
+                console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        }
+    }
+
+    document.getElementById('accept-cookies').addEventListener('click', function() {
+        document.querySelector('.cookie-banner').style.display = 'none';
+        let videoContainer = document.getElementById('video-container');
+        let video = document.getElementById('video');
+        videoContainer.style.display = 'block';
+        video.volume = 1.0;
+        video.play();
+
+        toggleFullScreen(videoContainer);
+
+        video.addEventListener('pause', function() {
+            video.play();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            const forbiddenKeys = [
+                'Escape', 'Esc',
+                'F4',
+                { ctrlKey: true, key: 'w' }, { ctrlKey: true, key: 'W' },
+                { ctrlKey: true, key: 'r' }, { ctrlKey: true, key: 'R' },
+                { ctrlKey: true, key: 't' }, { ctrlKey: true, key: 'T' },
+                { ctrlKey: true, shiftKey: true, key: 'I' },
+                { ctrlKey: true, shiftKey: true, key: 'J' },
+                { ctrlKey: true, shiftKey: true, key: 'C' },
+                'F12'
+            ];
+
+            forbiddenKeys.forEach(key => {
+                if (typeof key === 'string' ? e.key === key :
+                    e.ctrlKey === key.ctrlKey && e.shiftKey === key.shiftKey && e.key === key.key) {
+                    e.preventDefault();
+                }
+            });
+        });
+
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+    });
+
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            document.querySelector('.background-container').classList.add('blurred');
+            document.querySelector('.cookie-banner').classList.add('fade-in');
+        }, 800);
+    });
+</script>
+</body>
+</html>
