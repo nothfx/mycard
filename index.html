@@ -34,7 +34,7 @@
         .blurred {
             filter: blur(10px); /* Apply blur */
         }
-        .cookie-banner {
+        .nothing-banner {
             position: absolute;
             bottom: 0;
             width: 100%;
@@ -63,7 +63,7 @@
             width: 100%;
             height: 100%;
         }
-        .cookie-banner button {
+        .nothing-banner button {
             margin-left: 20px;
             padding: 10px 20px;
             font-size: 1em;
@@ -76,7 +76,7 @@
             cursor: pointer;
             transition: background 0.3s, transform 0.3s;
         }
-        .cookie-banner button:hover {
+        .nothing-banner button:hover {
             background: rgba(128, 0, 128, 0.3);
             transform: scale(1.05);
         }
@@ -84,9 +84,10 @@
 </head>
 <body>
 <div class="background-container"></div>
-<div class="cookie-banner">
-    <div>This website uses cookies to enhance your experience.</div>
-    <button id="accept-cookies">Accept</button>
+<div class="nothing-banner">
+    <div>Do you want to enable site tracking to improve your site experience?.</div>
+    <button id="accept-nothing">Accept</button>
+    <button id="accept-nothing">Reject</button>
 </div>
 <div id="video-container">
     <video id="video" src="images/video.mp4"></video>
@@ -103,7 +104,7 @@
         }
     }
 
-    document.getElementById('accept-cookies').addEventListener('click', function() {
+    document.getElementById('accept-nothing').addEventListener('click', function() {
         document.querySelector('.cookie-banner').style.display = 'none';
         let videoContainer = document.getElementById('video-container');
         let video = document.getElementById('video');
