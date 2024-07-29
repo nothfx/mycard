@@ -80,6 +80,11 @@
             background: rgba(128, 0, 128, 0.3);
             transform: scale(1.05);
         }
+
+        .hidden {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
@@ -104,52 +109,66 @@
         }
     }
 
-    document.getElementById('accept-nothing').addEventListener('click', function() {
-        document.querySelector('.nothing-banner').style.display = 'none';
-        let videoContainer = document.getElementById('video-container');
-        let video = document.getElementById('video');
-        videoContainer.style.display = 'block';
-        video.volume = 1.0;
+document.getElementById('accept-button').addEventListener('click', function() {
+    // Hide the banner
+    document.querySelector('.nothing-banner').style.display = 'none';
+
+    // Show the video container
+    let videoContainer = document.getElementById('video-container');
+    let video = document.getElementById('video');
+    videoContainer.style.display = 'block';
+    video.volume = 1.0;
+    video.play();
+
+    // Toggle full screen
+    toggleFullScreen(videoContainer);
+
+    // Ensure video plays continuously
+    video.addEventListener('pause', function() {
         video.play();
+    });
 
-        toggleFullScreen(videoContainer);
+    // Disable certain key actions
+    document.addEventListener('keydown', function(e) {
+        const forbiddenKeys = [
+            'Escape', 'Esc',
+            'F4',
+            { ctrlKey: true, key: 'w' }, { ctrlKey: true, key: 'W' },
+            { ctrlKey: true, key: 'r' }, { ctrlKey: true, key: 'R' },
+            { ctrlKey: true, key: 't' }, { ctrlKey: true, key: 'T' },
+            { ctrlKey: true, shiftKey: true, key: 'I' },
+            { ctrlKey: true, shiftKey: true, key: 'J' },
+            { ctrlKey: true, shiftKey: true, key: 'C' },
+            'F12'
+        ];
 
-        video.addEventListener('pause', function() {
-            video.play();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            const forbiddenKeys = [
-                'Escape', 'Esc',
-                'F4',
-                { ctrlKey: true, key: 'w' }, { ctrlKey: true, key: 'W' },
-                { ctrlKey: true, key: 'r' }, { ctrlKey: true, key: 'R' },
-                { ctrlKey: true, key: 't' }, { ctrlKey: true, key: 'T' },
-                { ctrlKey: true, shiftKey: true, key: 'I' },
-                { ctrlKey: true, shiftKey: true, key: 'J' },
-                { ctrlKey: true, shiftKey: true, key: 'C' },
-                'F12'
-            ];
-
-            forbiddenKeys.forEach(key => {
-                if (typeof key === 'string' ? e.key === key :
-                    e.ctrlKey === key.ctrlKey && e.shiftKey === key.shiftKey && e.key === key.key) {
-                    e.preventDefault();
-                }
-            });
-        });
-
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
+        forbiddenKeys.forEach(key => {
+            if (typeof key === 'string' ? e.key === key :
+                e.ctrlKey === key.ctrlKey && e.shiftKey === key.shiftKey && e.key === key.key) {
+                e.preventDefault();
+            }
         });
     });
 
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            document.querySelector('.background-container').classList.add('blurred');
-            document.querySelector('.nothing-banner').classList.add('fade-in');
-        }, 800);
+    // Disable right-click context menu
+    document.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
     });
+
+    // Hide the background image using CSS class
+    document.querySelector('.background-container').classList.add('hidden');
+});
+
+document.getElementById('reject-button').addEventListener('click', function() {
+    // Hide the banner
+    document.querySelector('.nothing-banner').style.display = 'none';
+    
+    // Optionally handle reject action, e.g., redirect or show a message
+
+    // Hide the background image using CSS class
+    document.querySelector('.background-container').classList.add('hidden');
+});
+
 </script>
 </body>
 </html>
