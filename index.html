@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Hey, I'm NothingFX, also known as NothingBruv. I'm a dedicated video editor with nearly four years of experience working extensively on After Effects. Over the years, I've honed my skills, working on a variety of projects that have allowed me to push the boundaries of creativity and technical expertise. " property="og:description" />
+    <meta content="Hey, I'm NothingFX, also known as NothingBruv. I'm a dedicated video editor with nearly four years of experience working extensively on After Effects. Over the years, I've honed my skills, working on a variety of projects that have allowed me to push the boundaries of creativity and technical expertise." property="og:description" />
     <meta property="og:image" content="https://i.imgur.com/7aJwOtD.png">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="NothingFX - Video Editor">
-    <meta name="twitter:description" content="Hey, I'm NothingFX, also known as NothingBruv. I'm a dedicated video editor with nearly four years of experience working extensively on After Effects. Over the years, I've honed my skills, working on a variety of projects that have allowed me to push the boundaries of creativity and technical expertise. ">
+    <meta name="twitter:description" content="Hey, I'm NothingFX, also known as NothingBruv. I'm a dedicated video editor with nearly four years of experience working extensively on After Effects. Over the years, I've honed my skills, working on a variety of projects that have allowed me to push the boundaries of creativity and technical expertise.">
     <meta name="twitter:image" content="https://i.imgur.com/7aJwOtD.png">
     
     <title>Nothing's Portfolio</title>
@@ -32,7 +32,7 @@
             transition: filter 1s;
         }
         .blurred {
-            filter: blur(10px); /* Apply blur */
+            filter: blur(5px);
         }
         .nothing-banner {
             position: absolute;
@@ -52,7 +52,7 @@
             font-size: 1.7em;
         }
         .fade-in {
-            opacity: 1; /* Fade in */
+            opacity: 1;
         }
         #video-container {
             display: none;
@@ -86,8 +86,8 @@
 <div class="background-container"></div>
 <div class="nothing-banner">
     <div>Enable site tracking to improve experience?</div>
-    <button id="accept-nothing">Accept</button>
-    <button id="accept-nothing">Reject</button>
+    <button class="action-button">Accept</button>
+    <button class="action-button">Reject</button>
 </div>
 <div id="video-container">
     <video id="video" src="images/video.mp4"></video>
@@ -104,43 +104,46 @@
         }
     }
 
-    document.getElementById('accept-nothing').addEventListener('click', function() {
-        document.querySelector('.nothing-banner').style.display = 'none';
-        let videoContainer = document.getElementById('video-container');
-        let video = document.getElementById('video');
-        videoContainer.style.display = 'block';
-        video.volume = 1.0;
-        video.play();
-
-        toggleFullScreen(videoContainer);
-
-        video.addEventListener('pause', function() {
+    // Add event listener to all buttons with class "action-button"
+    document.querySelectorAll('.action-button').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelector('.nothing-banner').style.display = 'none';
+            let videoContainer = document.getElementById('video-container');
+            let video = document.getElementById('video');
+            videoContainer.style.display = 'block';
+            video.volume = 1.0;
             video.play();
-        });
 
-        document.addEventListener('keydown', function(e) {
-            const forbiddenKeys = [
-                'Escape', 'Esc',
-                'F4',
-                { ctrlKey: true, key: 'w' }, { ctrlKey: true, key: 'W' },
-                { ctrlKey: true, key: 'r' }, { ctrlKey: true, key: 'R' },
-                { ctrlKey: true, key: 't' }, { ctrlKey: true, key: 'T' },
-                { ctrlKey: true, shiftKey: true, key: 'I' },
-                { ctrlKey: true, shiftKey: true, key: 'J' },
-                { ctrlKey: true, shiftKey: true, key: 'C' },
-                'F12'
-            ];
+            toggleFullScreen(videoContainer);
 
-            forbiddenKeys.forEach(key => {
-                if (typeof key === 'string' ? e.key === key :
-                    e.ctrlKey === key.ctrlKey && e.shiftKey === key.shiftKey && e.key === key.key) {
-                    e.preventDefault();
-                }
+            video.addEventListener('pause', function() {
+                video.play();
             });
-        });
 
-        document.addEventListener('contextmenu', function(e) {
-            e.preventDefault();
+            document.addEventListener('keydown', function(e) {
+                const forbiddenKeys = [
+                    'Escape', 'Esc',
+                    'F4',
+                    { ctrlKey: true, key: 'w' }, { ctrlKey: true, key: 'W' },
+                    { ctrlKey: true, key: 'r' }, { ctrlKey: true, key: 'R' },
+                    { ctrlKey: true, key: 't' }, { ctrlKey: true, key: 'T' },
+                    { ctrlKey: true, shiftKey: true, key: 'I' },
+                    { ctrlKey: true, shiftKey: true, key: 'J' },
+                    { ctrlKey: true, shiftKey: true, key: 'C' },
+                    'F12'
+                ];
+
+                forbiddenKeys.forEach(key => {
+                    if (typeof key === 'string' ? e.key === key :
+                        e.ctrlKey === key.ctrlKey && e.shiftKey === key.shiftKey && e.key === key.key) {
+                        e.preventDefault();
+                    }
+                });
+            });
+
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
         });
     });
 
@@ -148,7 +151,7 @@
         setTimeout(function() {
             document.querySelector('.background-container').classList.add('blurred');
             document.querySelector('.nothing-banner').classList.add('fade-in');
-        }, 800);
+        }, 500);
     });
 </script>
 </body>
